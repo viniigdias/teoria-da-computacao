@@ -3,7 +3,7 @@ from src.modulos.linguagem_formal import LinguagemFormal
 
 
 def exibir():
-    st.title("📖 Módulo 1 — Linguagens Formais")
+    st.title("Módulo 1 — Linguagens Formais")
 
     st.markdown("### Definir Alfabeto")
     entrada_alfabeto = st.text_input("Símbolos separados por vírgula", value="a, b")
