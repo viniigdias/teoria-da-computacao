@@ -1,89 +1,77 @@
+from collections import deque
+
 class GramaticaLivreDeContexto:
 
-    def __init__(self, variaveis, terminais, producoes, simbolo_inicial):
-        self.variaveis = variaveis
-        self.terminais = terminais
+    def __init__(self, variaveis, terminals, producoes, simbolo_inicial):
+        self.variaveis = set(variaveis)
+        self.terminais = set(terminals)
         self.producoes = producoes
         self.simbolo_inicial = simbolo_inicial
 
-    def derivar(self, cadeia, max_passos=20):
-        historico = [self.simbolo_inicial]
-        arvore = []
+    def derivar(self, cadeia, max_passos=1500):
+        alvo = "" if cadeia in ["λ", "lambda", ""] else cadeia
 
-        for simbolo in cadeia:
-            if simbolo not in self.terminais:
-                arvore.append({
-                    "variavel": "-",
-                    "regra": "-",
-                    "antes": self.simbolo_inicial,
-                    "depois": "rejeitada",
-                    "motivo": f"Símbolo inválido: {simbolo}"
-                })
-                return False, historico, arvore
+        fila = deque([(self.simbolo_inicial, [self.simbolo_inicial], [])])
+        visitados = {self.simbolo_inicial}
 
-        if (
-            self.simbolo_inicial == "S"
-            and "S" in self.producoes
-            and "aSb" in self.producoes["S"]
-            and "λ" in self.producoes["S"]
-        ):
-            qtd_a = cadeia.count("a")
-            qtd_b = cadeia.count("b")
-            atual = self.simbolo_inicial
+        vars_ordenadas = sorted(list(self.variaveis), key=len, reverse=True)
 
-            for _ in range(qtd_a):
-                novo = atual.replace("S", "aSb", 1)
+        while fila and max_passos > 0:
+            max_passos -= 1
+            atual, historico, arvore = fila.popleft()
 
-                arvore.append({
-                    "variavel": "S",
-                    "regra": "aSb",
-                    "antes": atual,
-                    "depois": novo,
-                    "motivo": "Aplicação da produção"
-                })
+            if atual == alvo:
+                return True, historico, arvore
 
-                atual = novo
-                historico.append(atual)
+            idx_var = -1
+            var_achada = None
 
-            novo = atual.replace("S", "", 1)
+            for i in range(len(atual)):
+                for var in vars_ordenadas:
+                    if atual[i:].startswith(var):
+                        idx_var = i
+                        var_achada = var
+                        break
+                if idx_var != -1:
+                    break
 
-            arvore.append({
-                "variavel": "S",
-                "regra": "λ",
-                "antes": atual,
-                "depois": novo if novo != "" else "λ",
-                "motivo": "Finalização da derivação"
-            })
+            if idx_var == -1:
+                continue
 
-            atual = novo
-            historico.append(atual if atual != "" else "λ")
+            terminais_atuais = [c for c in atual if c in self.terminais]
+            if len(terminais_atuais) > len(alvo):
+                continue
 
-            if qtd_a != qtd_b:
-                arvore.append({
-                    "variavel": "-",
-                    "regra": "-",
-                    "antes": atual,
-                    "depois": "rejeitada",
-                    "motivo": "Quantidade de 'a' diferente da quantidade de 'b'"
-                })
-                return False, historico, arvore
+            opcoes = self.producoes.get(var_achada, [])
+            for opcao in opcoes:
+                substituta = "" if opcao in ["λ", "lambda", ""] else opcao
+                
+                novo = atual[:idx_var] + substituta + atual[idx_var + len(var_achada):]
 
-            if cadeia != ("a" * qtd_a + "b" * qtd_b):
-                arvore.append({
-                    "variavel": "-",
-                    "regra": "-",
-                    "antes": atual,
-                    "depois": "rejeitada",
-                    "motivo": "A cadeia não está no formato aⁿbⁿ"
-                })
-                return False, historico, arvore
+                if novo not in visitados:
+                    if len(novo) > len(alvo) + 4:
+                        continue
 
-            return atual == cadeia, historico, arvore
+                    visitados.add(novo)
 
-        return False, historico, [{
+                    passo_arvore = {
+                        "variavel": var_achada,
+                        "regra": opcao if opcao != "" else "λ",
+                        "antes": atual,
+                        "depois": novo if novo != "" else "λ"
+                    }
+
+                    exibicao_limpa = novo if novo != "" else "λ"
+                    fila.append((
+                        novo, 
+                        historico + [exibicao_limpa], 
+                        arvore + [passo_arvore]
+                    ))
+
+        return False, [self.simbolo_inicial], [{
             "variavel": "-",
             "regra": "-",
             "antes": self.simbolo_inicial,
             "depois": "rejeitada",
-            "motivo": "Gramática não reconhecida por este simulador"
+            "motivo": "Cadeia rejeitada ou árvore de derivação muito profunda."
         }]
