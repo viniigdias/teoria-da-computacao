@@ -1,28 +1,24 @@
 class AutomatoComPilha:
-    def __init__(self):
+    def __init__(self) -> None:
         self.estado_inicial = "q0"
 
-    def executar(self, cadeia):
-        pilha = []
+    def executar(self, cadeia: str) -> tuple[bool, list[dict]]:
+        pilha = ["Z0"]
         historico = []
         estado_atual = self.estado_inicial
 
-        # estados:
-        # q0: empilha 'A' para cada 'a'
-        # q1: desempilha 'A' para cada 'b'
-        
         for simbolo in cadeia:
             historico.append({
                 "leitura": simbolo,
                 "estado": estado_atual,
-                "pilha": list(pilha) if pilha else ["(vazia)"]
+                "pilha": list(pilha)
             })
 
             if estado_atual == "q0":
                 if simbolo == "a":
                     pilha.append("A")
                 elif simbolo == "b":
-                    if not pilha:
+                    if len(pilha) <= 1 or pilha[-1] != "A":
                         return False, historico
                     pilha.pop()
                     estado_atual = "q1"
@@ -31,7 +27,7 @@ class AutomatoComPilha:
 
             elif estado_atual == "q1":
                 if simbolo == "b":
-                    if not pilha:
+                    if len(pilha) <= 1 or pilha[-1] != "A":
                         return False, historico
                     pilha.pop()
                 else:
@@ -40,8 +36,8 @@ class AutomatoComPilha:
         historico.append({
             "leitura": "λ (fim)",
             "estado": estado_atual,
-            "pilha": list(pilha) if pilha else ["(vazia)"]
+            "pilha": list(pilha)
         })
 
-        aceita = (estado_atual == "q1" and len(pilha) == 0)
+        aceita = (estado_atual == "q1" and pilha == ["Z0"])
         return aceita, historico

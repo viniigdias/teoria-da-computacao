@@ -1,55 +1,35 @@
 import streamlit as st
-
 from src.modulos.complexidade_computacional import ComplexidadeComputacional
 
-
-def exibir():
+def exibir() -> None:
     st.title("Complexidade Computacional")
-
-    st.write("Análise assintótica dos algoritmos implementados.")
+    st.write("Análise assintótica formal dos algoritmos implementados no simulador.")
 
     complexidade = ComplexidadeComputacional()
     dados = complexidade.listar()
 
-    modulo = st.selectbox("Escolha o módulo:", list(dados.keys()))
+    modulo = st.selectbox("Escolha o módulo para inspecionar:", list(dados.keys()))
     info = dados[modulo]
 
-    st.subheader(modulo)
+    st.subheader(f"Módulo: {modulo}")
 
     col1, col2, col3 = st.columns(3)
-
     with col1:
-        st.metric("Melhor caso", info["melhor_caso"])
-
+        st.metric("Melhor Caso", info["melhor_caso"])
     with col2:
-        st.metric("Caso médio", info["caso_medio"])
-
+        st.metric("Caso Médio", info["caso_medio"])
     with col3:
-        st.metric("Pior caso", info["pior_caso"])
+        st.metric("Pior Caso", info["pior_caso"])
 
-    st.subheader("Explicação")
+    st.subheader("Análise e Justificativa Teórica")
+    st.info(info["justificativa"])
 
-    explicacoes = {
-        "Linguagem Formal":
-            "Percorre a cadeia para verificar se os símbolos pertencem ao alfabeto.",
-
-        "Autômato Finito":
-            "Lê a cadeia uma vez, mudando de estado a cada símbolo.",
-
-        "Gramática Livre de Contexto":
-            "Realiza derivações usando as produções da gramática até gerar ou rejeitar a cadeia.",
-
-        "Autômato com Pilha":
-            "Percorre a cadeia uma vez, empilhando os a's e desempilhando para os b's.",
-
-        "Máquina de Turing":
-            "Percorre a fita procurando o separador e remove esse símbolo para formar a soma unária."
-    }
-
-    st.write(explicacoes[modulo])
-
-    st.subheader("Notações")
-
-    st.write("**$O()$**: pior caso")
-    st.write("**$\Omega()$**: melhor caso")
-    st.write("**$\Theta()$**: caso médio")
+    st.markdown("---")
+    st.subheader("Definições Formais das Notações Assintóticas")
+    st.markdown("""
+    - **O( )**: Limite superior assintótico. A função cresce *no máximo* a esta taxa (cota superior).
+    - **Ω( )**: Limite inferior assintótico. A função cresce *pelo menos* a esta taxa (cota inferior).
+    - **Θ( )**: Limite assintótico justo (*tight bound*). A função cresce *exatamente* nesta taxa (quando as cotas superior e inferior coincidem).
+    
+    *Nota:* É um erro comum associar 'O' apenas ao pior caso e 'Θ' ao caso médio. Qualquer cenário (melhor, médio ou pior) pode ser descrito usando qualquer uma das três notações, desde que a análise respeite o limite matemático imposto.
+    """)

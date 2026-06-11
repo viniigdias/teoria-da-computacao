@@ -49,10 +49,12 @@ def exibir():
             linguagem = LinguagemFormal(alfabeto)
             resultado = linguagem.sigma_estrela(tamanho_maximo)
             st.markdown(f"**Σ\*** — {len(resultado)} cadeias")
-            st.write(resultado)
+            resultado_visual = [r if r != "" else "λ" for r in resultado]
+            st.write(resultado_visual)
     with col4:
         if st.button("Calcular Σ+"):
             linguagem = LinguagemFormal(alfabeto)
             resultado = linguagem.sigma_mais(tamanho_maximo)
             st.markdown(f"**Σ+** — {len(resultado)} cadeias")
-            st.write(resultado)
+            resultado_visual = [r if r != "" else "λ" for r in resultado]
+            st.write(resultado_visual)

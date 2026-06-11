@@ -1,19 +1,22 @@
 import streamlit as st
 from src.modulos.automato_com_pilha import AutomatoComPilha
 
-def exibir():
+def exibir() -> None:
     st.title("Módulo 4 — Autômato com Pilha")
-    st.markdown("### Linguagem: L = {aⁿbⁿ | n ≥ 1}")
+    st.markdown("### Linguagem Mínima: L = {aⁿbⁿ | n ≥ 1}")
     
-    cadeia = st.text_input("Cadeia de entrada (ex: aabb)", value="aabb")
+    cadeia = st.text_input("Cadeia de entrada", value="aabb").strip()
 
-    if st.button("Executar"):
+    if st.button("Executar Autômato"):
+        if not cadeia:
+            st.warning("⚠️ Insira uma cadeia válida.")
+            return
+
         ap = AutomatoComPilha()
         aceita, historico = ap.executar(cadeia)
 
-        st.markdown("### Execução Passo a Passo")
-        
-        st.markdown("| Leitura | Estado | Pilha |")
+        st.markdown("### Rastreamento da Pilha")
+        st.markdown("| Leitura | Estado | Conteúdo da Pilha |")
         st.markdown("| :--- | :--- | :--- |")
         for passo in historico:
             pilha_str = f"[{', '.join(passo['pilha'])}]"
@@ -21,6 +24,6 @@ def exibir():
 
         st.markdown("---")
         if aceita:
-            st.success("✅ ACEITA - A cadeia pertence à linguagem.")
+            st.success("✅ CADEIA ACEITA")
         else:
-            st.error("❌ REJEITADA - A cadeia não pertence à linguagem ou a pilha não esvaziou.")
+            st.error("❌ CADEIA REJEITADA")

@@ -9,6 +9,12 @@ class GramaticaLivreDeContexto:
         self.simbolo_inicial = simbolo_inicial
 
     def derivar(self, cadeia, max_passos=1500):
+        """
+        Deriva a cadeia usando Busca em Largura (BFS) limitando a profundidade.
+        Nota Teórica: O BFS possui complexidade exponencial no pior caso. Para evitar loops 
+        infinitos em gramáticas altamente recursivas, uma heurística de poda de tamanho 
+        (+4) é aplicada. O algoritmo CYK seria determinístico em O(n³), porém exige FNC.
+        """
         alvo = "" if cadeia in ["λ", "lambda", ""] else cadeia
 
         fila = deque([(self.simbolo_inicial, [self.simbolo_inicial], [])])

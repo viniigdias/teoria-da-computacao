@@ -1,6 +1,7 @@
 class MaquinaDeTuring:
     def somar_unario(self, entrada):
-        fita = list(entrada) + ["_"] * 5 
+        espaco_seguro = max(10, len(entrada) + 5)
+        fita = list(entrada) + ["_"] * espaco_seguro 
         cabecote = 0
         estado = "q0"
         historico = []
@@ -39,6 +40,7 @@ class MaquinaDeTuring:
                     estado = "q_aceita"
                 else:
                     estado = "q_rejeita"
+
 
         historico.append({
             "estado": estado,
