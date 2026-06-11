@@ -18,9 +18,9 @@ class ComplexidadeComputacional:
 
             "Gramática Livre de Contexto": {
                 "melhor_caso": "Ω(n)",
-                "caso_medio": "Θ(n · |P|)",
+                "caso_medio": "O(|P|^n)",
                 "pior_caso": "O(|P|^n)",
-                "justificativa": "A árvore de derivação é explorada por busca em largura (BFS). Em gramáticas altamente recursivas, o crescimento de combinações sentenciais é exponencial em função do comprimento da cadeia (n) e do volume de produções (|P|). A cota O(n³) pertence ao algoritmo CYK, que não é o caso deste motor."
+                "justificativa": "A exploração via Busca em Largura (BFS) sobre formas sentenciais gera crescimento exponencial O(|P|^n). Para evitar explosão combinatorial ou loops infinitos, aplicamos uma heurística de poda que encerra ramos cujo comprimento ultrapassa o tamanho da cadeia alvo + 4."
             },
 
             "Autômato com Pilha": {

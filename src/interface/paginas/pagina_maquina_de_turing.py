@@ -9,8 +9,8 @@ def exibir() -> None:
     cadeia = st.text_input("Fita Inicial", value="000100").strip()
 
     if st.button("Executar Máquina de Turing"):
-        if "1" not in cadeia:
-            st.error("❌ Entrada Inválida: A representação unária exige o caractere separador '1' (ex: '000100').")
+        if cadeia.count("1") != 1:
+            st.error("❌ Entrada Inválida: A representação unária exige exatamente UM caractere separador '1' (ex: '000100').")
             return
 
         mt = MaquinaDeTuring()
@@ -29,6 +29,7 @@ def exibir() -> None:
 
         st.markdown("---")
         if aceita:
-            st.success(f"✅ Execução Finalizada! Resultado da soma unária: **{resultado}**")
+            resultado_display = resultado if resultado else "λ (zero)"
+            st.success(f"✅ Execução Finalizada! Resultado da soma unária: **{resultado_display}**")
         else:
             st.error("❌ Erro na execução da fita.")

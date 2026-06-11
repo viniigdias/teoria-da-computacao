@@ -2,9 +2,9 @@ from collections import deque
 
 class GramaticaLivreDeContexto:
 
-    def __init__(self, variaveis, terminals, producoes, simbolo_inicial):
+    def __init__(self, variaveis, terminais, producoes, simbolo_inicial):
         self.variaveis = set(variaveis)
-        self.terminais = set(terminals)
+        self.terminais = set(terminais)
         self.producoes = producoes
         self.simbolo_inicial = simbolo_inicial
 
