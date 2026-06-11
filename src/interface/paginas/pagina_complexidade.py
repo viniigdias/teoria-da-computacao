@@ -50,6 +50,6 @@ def exibir():
 
     st.subheader("Notações")
 
-    st.write("**O( )**: pior caso")
-    st.write("**Ω( )**: melhor caso")
-    st.write("**Θ( )**: caso médio")
+    st.write("**$O()$**: pior caso")
+    st.write("**$\Omega()$**: melhor caso")
+    st.write("**$\Theta()$**: caso médio")
