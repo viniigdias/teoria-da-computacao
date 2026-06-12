@@ -3,7 +3,7 @@
 
 Projeto prático desenvolvido para a disciplina de Aspectos Teóricos da Computação. Esta aplicação interativa modela, valida e simula conceitos fundamentais da Teoria da Computação através de uma interface visual dinâmica.
 
-Projeto online (Deploy na nuvem): [Acessar Simulador](https://aspectos-teoricos-da-computacao.streamlit.app/)
+Projeto online (Deploy na nuvem): [Acessar Simulador](https://aspectos-teoricos-da-computacao.streamlit.app/
 
 ---
 
