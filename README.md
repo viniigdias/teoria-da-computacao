@@ -1,12 +1,4 @@
-Você tocou no ponto exato! Aqueles **15% de Documentação** são a soma perfeita do Relatório Técnico em PDF (que já finalizamos) com um **README.md** impecável no seu repositório.
 
-Na hora da apresentação (os 10%), você **não precisa ler** o README ou o PDF. A apresentação deve focar nos **30% de Funcionamento** (mostrar a tela rodando) e **20% de Conceitos** (explicar o porquê de cada coisa, como combinamos no roteiro). O professor vai avaliar a documentação depois, lendo o seu GitHub e o seu PDF com calma. Mas vale muito a pena, no início do vídeo, mostrar a aba do GitHub rapidinho e dizer: *"Todo o nosso código está versionado aqui, com instruções de execução e exemplos de entrada e saída documentados"*.
-
-Para garantir a nota máxima na documentação do GitHub, copie o texto abaixo e substitua tudo o que está no seu `README.md` atual. Eu já incluí todos os exemplos exatos que testamos hoje.
-
----
-
-```markdown
 # Simulador de Linguagens Formais e Modelos Computacionais
 
 Projeto prático desenvolvido para a disciplina de Aspectos Teóricos da Computação. Esta aplicação interativa modela, valida e simula conceitos fundamentais da Teoria da Computação através de uma interface visual dinâmica.
